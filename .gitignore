@@ -1,0 +1,7 @@
+*.pdf
+*.docx
+*.token
+*.png
+*.html
+*/__pycache__
+*/.idea

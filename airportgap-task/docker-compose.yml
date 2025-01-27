@@ -1,0 +1,10 @@
+services:
+
+  airportgap-pytest:
+    image: airportgap-pytest:1.0
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: airportgap-pytest
+    volumes:
+      - ./airportgap:/app

@@ -1,0 +1,43 @@
+services:
+  selenium-hub:
+    image: selenium/hub:latest
+    container_name: selenium-hub
+    ports:
+      - "4444:4444"  # Selenium Grid Hub port
+
+  chrome-node:
+    image: selenium/node-chrome:latest
+    container_name: chrome-node
+    depends_on:
+      - selenium-hub
+    environment:
+      - SE_EVENT_BUS_HOST=selenium-hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+    shm_size: "2g"  # Shared memory size for Chrome
+
+  edge-node:
+    image: selenium/node-edge:latest
+    container_name: edge-node
+    depends_on:
+      - selenium-hub
+    environment:
+      - SE_EVENT_BUS_HOST=selenium-hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+    shm_size: "2g"  # Shared memory size for Edge
+
+  sweetshop-pytest:
+    image: sweetshop-pytest:1.0
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: sweetshop-pytest
+    depends_on:
+      - selenium-hub
+      - edge-node
+      - chrome-node
+    volumes:
+      - ./sweetshop:/app
+    environment:
+      - SELENIUM_REMOTE_URL=http://selenium-hub:4444/wd/hub
