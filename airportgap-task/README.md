@@ -29,7 +29,7 @@ docker compose up --build --detach
 ## Running the tests  
 In a terminal, navigate to this projects directory and execute the following commands:  
 ```
-docker compose run sweetshop-pytest /app/airportgap-tests.sh
+docker compose run airportgap-pytest /app/airportgap-tests.sh
 ```
 This will execute the tests - you will see the tests being executed and the test results will be displayed.
 
